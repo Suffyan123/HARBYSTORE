@@ -1,0 +1,62 @@
+# Models
+
+A "model" here = a Mongoose model, i.e. a compiled schema bound to a MongoDB collection. This file lists what each model represents and how it relates to others. Field-level detail lives in `schemas.md`; collection-level detail (names, indexes) lives in `collections.md`.
+
+## 1. User
+Represents both admin and customer accounts (single login, `role` field distinguishes them).
+- Relates to: Order (1-to-many), Review (1-to-many), Wishlist (1-to-1), Cart (1-to-1), Address (embedded or 1-to-many)
+
+## 2. Product
+Core catalog item — the thing being sold.
+- Relates to: Category (many-to-1), Review (1-to-many), ProductCustomization (1-to-many), OrderItem (referenced)
+
+## 3. Category
+Groups products for browsing/filtering. Supports optional nesting (parent category).
+- Relates to: Product (1-to-many), self-referencing for subcategories
+
+## 4. ProductCustomization
+A saved custom design instance — selected color, uploaded image, custom text — tied to a specific product and user, referenced from Cart/OrderItem.
+- Relates to: Product (many-to-1), User (many-to-1)
+
+## 5. Cart
+The active, mutable cart for a logged-in user (or guest session).
+- Relates to: User (1-to-1), Product (referenced per item), ProductCustomization (referenced per item, optional)
+
+## 6. Wishlist
+Saved-for-later products per user.
+- Relates to: User (1-to-1), Product (many, referenced by ID array)
+
+## 7. Order
+An immutable snapshot created at checkout — what was bought, at what price, shipped where.
+- Relates to: User (many-to-1), OrderItem (1-to-many, often embedded), Coupon (optional, many-to-1)
+
+## 8. OrderItem
+Individual line item within an order. Can be embedded directly inside Order rather than a separate collection — see `collections.md` for the tradeoff.
+- Relates to: Product (many-to-1), ProductCustomization (many-to-1, optional), Order (many-to-1)
+
+## 9. Review
+Customer rating/comment on a product.
+- Relates to: Product (many-to-1), User (many-to-1)
+
+## 10. Coupon
+Discount codes applied at checkout.
+- Relates to: Order (1-to-many, tracks usage)
+
+## 11. Blog
+Editorial/marketing content.
+- Relates to: User (many-to-1, as author — admin only)
+
+## 12. Address
+Shipping/billing address. Can be embedded inside User instead of a standalone model if addresses are never reused independently of a user.
+- Relates to: User (many-to-1)
+
+## 13. Invoice
+Generated document tied to a completed order.
+- Relates to: Order (1-to-1)
+
+## 14. ContactMessage
+Submissions from the Contact Us page. No relations — standalone.
+
+---
+
+**Total: 14 models.** (Address may be merged into User as an embedded subdocument rather than its own model — see note in `schemas.md`.)

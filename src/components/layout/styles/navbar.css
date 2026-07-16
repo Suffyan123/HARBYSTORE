@@ -1,0 +1,22 @@
+/* Navbar base */
+/* .navbar { */
+    /* background: #ACE7EF33; */
+  /* background: #cfe3e6; */
+/* } */
+
+/* Logo */
+.logo {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+/* Links */
+.nav-links {
+  gap: 30px;
+  list-style: none;
+}
+
+/* Icons */
+.nav-icons {
+  font-size: 18px;
+}

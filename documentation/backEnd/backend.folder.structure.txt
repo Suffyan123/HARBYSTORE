@@ -1,0 +1,36 @@
+backend/
+├── src/
+│   ├── config/
+│   │   ├── db.js
+│   │   └── cloudinary.js
+│   ├── models/
+│   │   ├── User.js
+│   │   ├── Product.js
+│   │   ├── Category.js
+│   │   ├── ProductCustomization.js
+│   │   ├── Cart.js
+│   │   ├── Wishlist.js
+│   │   ├── Order.js
+│   │   ├── Review.js
+│   │   ├── Coupon.js
+│   │   ├── Blog.js
+│   │   ├── Invoice.js
+│   │   └── ContactMessage.js
+│   ├── controllers/
+│   │   └── (one per model, mirrors routes)
+│   ├── routes/
+│   │   └── (one per module, mounted in app.js)
+│   ├── middleware/
+│   │   ├── requireAuth.js
+│   │   ├── requireAdmin.js
+│   │   ├── errorHandler.js
+│   │   └── validate.js
+│   ├── services/
+│   │   ├── emailService.js
+│   │   ├── paymentService.js
+│   │   └── invoiceService.js
+│   ├── utils/
+│   └── app.js
+├── server.js
+├── .env
+└── package.json

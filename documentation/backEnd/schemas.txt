@@ -1,0 +1,212 @@
+# Schemas (Mongoose)
+
+Actual schema definitions matching the models in `models.md` and collections in `collections.md`.
+
+## User
+
+```js
+const AddressSchema = new mongoose.Schema({
+  label: String,          // "Home", "Office"
+  fullName: String,
+  phone: String,
+  street: String,
+  city: String,
+  state: String,
+  postalCode: String,
+  country: String,
+  isDefault: { type: Boolean, default: false },
+}, { _id: true });
+
+const UserSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true, lowercase: true },
+  password: { type: String, required: true, select: false },
+  role: { type: String, enum: ["admin", "user"], default: "user" },
+  phone: String,
+  isEmailVerified: { type: Boolean, default: false },
+  addresses: [AddressSchema],
+}, { timestamps: true });
+```
+
+## Category
+
+```js
+const CategorySchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  slug: { type: String, required: true, unique: true },
+  parentCategory: { type: mongoose.Schema.Types.ObjectId, ref: "Category", default: null },
+}, { timestamps: true });
+```
+
+## Product
+
+```js
+const VariantSchema = new mongoose.Schema({
+  sku: String,
+  color: String,
+  size: String,
+  stock: { type: Number, default: 0 },
+  price: Number,
+}, { _id: false });
+
+const ProductSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  slug: { type: String, required: true, unique: true },
+  description: String,
+  basePrice: { type: Number, required: true },
+  images: [String],
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category", required: true },
+  stock: { type: Number, default: 0 },
+  isCustomizable: { type: Boolean, default: false },
+  availableColors: [String],
+  variants: [VariantSchema],
+  ratingAvg: { type: Number, default: 0 },
+  reviewCount: { type: Number, default: 0 },
+  isActive: { type: Boolean, default: true },
+}, { timestamps: true });
+
+ProductSchema.index({ name: "text", description: "text" });
+```
+
+## ProductCustomization
+
+```js
+const ProductCustomizationSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  selectedColor: String,
+  uploadedImageUrl: String,
+  customText: String,
+  textFont: String,
+  textPosition: { x: Number, y: Number },
+  previewImageUrl: String,     // rendered mockup shown in cart/checkout
+}, { timestamps: true });
+```
+
+## Cart
+
+```js
+const CartItemSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+  customization: { type: mongoose.Schema.Types.ObjectId, ref: "ProductCustomization", default: null },
+  quantity: { type: Number, required: true, min: 1 },
+  priceAtAdd: { type: Number, required: true },  // snapshot, not trusted at checkout — re-validated server-side
+}, { _id: true });
+
+const CartSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, unique: true },
+  items: [CartItemSchema],
+}, { timestamps: true });
+```
+
+## Wishlist
+
+```js
+const WishlistSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true, unique: true },
+  products: [{ type: mongoose.Schema.Types.ObjectId, ref: "Product" }],
+}, { timestamps: true });
+```
+
+## Order (with embedded OrderItem)
+
+```js
+const OrderItemSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+  customization: { type: mongoose.Schema.Types.ObjectId, ref: "ProductCustomization", default: null },
+  quantity: { type: Number, required: true },
+  priceAtPurchase: { type: Number, required: true },  // immutable historical price
+}, { _id: true });
+
+const OrderSchema = new mongoose.Schema({
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  items: [OrderItemSchema],
+  shippingAddress: {
+    fullName: String, phone: String, street: String,
+    city: String, state: String, postalCode: String, country: String,
+  },
+  subtotal: { type: Number, required: true },
+  discount: { type: Number, default: 0 },
+  tax: { type: Number, default: 0 },
+  total: { type: Number, required: true },
+  status: {
+    type: String,
+    enum: ["pending", "paid", "shipped", "delivered", "cancelled"],
+    default: "pending",
+  },
+  paymentStatus: { type: String, enum: ["unpaid", "paid", "refunded"], default: "unpaid" },
+  paymentIntentId: String,
+  couponUsed: { type: mongoose.Schema.Types.ObjectId, ref: "Coupon", default: null },
+}, { timestamps: true });
+
+OrderSchema.index({ user: 1, createdAt: -1 });
+OrderSchema.index({ status: 1 });
+```
+
+## Review
+
+```js
+const ReviewSchema = new mongoose.Schema({
+  product: { type: mongoose.Schema.Types.ObjectId, ref: "Product", required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  rating: { type: Number, required: true, min: 1, max: 5 },
+  comment: String,
+  images: [String],
+}, { timestamps: true });
+
+ReviewSchema.index({ product: 1 });
+ReviewSchema.index({ product: 1, user: 1 }, { unique: true });
+```
+
+## Coupon
+
+```js
+const CouponSchema = new mongoose.Schema({
+  code: { type: String, required: true, unique: true, uppercase: true },
+  type: { type: String, enum: ["percentage", "fixed"], required: true },
+  value: { type: Number, required: true },
+  minOrderValue: { type: Number, default: 0 },
+  expiresAt: Date,
+  usageLimit: Number,
+  usedCount: { type: Number, default: 0 },
+  isActive: { type: Boolean, default: true },
+}, { timestamps: true });
+```
+
+## Blog
+
+```js
+const BlogSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  slug: { type: String, required: true, unique: true },
+  content: { type: String, required: true },
+  coverImage: String,
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  tags: [String],
+  publishedAt: Date,
+}, { timestamps: true });
+```
+
+## Invoice
+
+```js
+const InvoiceSchema = new mongoose.Schema({
+  order: { type: mongoose.Schema.Types.ObjectId, ref: "Order", required: true, unique: true },
+  invoiceNumber: { type: String, required: true, unique: true },
+  pdfUrl: String,
+  issuedAt: { type: Date, default: Date.now },
+}, { timestamps: true });
+```
+
+## ContactMessage
+
+```js
+const ContactMessageSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  email: { type: String, required: true },
+  message: { type: String, required: true },
+  isResolved: { type: Boolean, default: false },
+}, { timestamps: true });
+
+ContactMessageSchema.index({ createdAt: -1 });
+```

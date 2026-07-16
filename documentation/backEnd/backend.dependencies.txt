@@ -1,0 +1,123 @@
+# Backend Dependencies
+
+## Core
+| Package | Purpose |
+|---|---|
+| express | HTTP server / routing framework |
+| mongoose | MongoDB ODM — models, schemas, queries |
+| dotenv | Load environment variables from `.env` |
+| cors | Allow frontend (different origin) to call the API |
+| cookie-parser | Parse cookies (refresh token storage) |
+
+## Auth & Security
+| Package | Purpose |
+|---|---|
+| jsonwebtoken | Issue/verify JWT access & refresh tokens |
+| bcryptjs | Hash and compare passwords |
+| helmet | Sets secure HTTP headers |
+| express-rate-limit | Rate limit auth/login endpoints against brute force |
+| express-mongo-sanitize | Strip Mongo operator injection from request bodies |
+
+## Validation
+| Package | Purpose |
+|---|---|
+| zod | Schema validation for request bodies (recommended over express-validator for TS-style safety) |
+
+## File Upload / Media
+| Package | Purpose |
+|---|---|
+| multer | Parse multipart/form-data (image uploads) |
+| cloudinary | Store & serve product images, custom design uploads, review photos |
+| multer-storage-cloudinary | Direct Multer → Cloudinary upload pipeline |
+
+## Email
+| Package | Purpose |
+|---|---|
+| nodemailer | Send verification, password reset, order confirmation emails |
+| (or) @sendgrid/mail | Alternative transactional email provider |
+
+## Payments
+| Package | Purpose |
+|---|---|
+| stripe | Payment intents, checkout, webhooks |
+
+## PDF / Invoicing
+| Package | Purpose |
+|---|---|
+| pdfkit | Generate invoice PDFs |
+| (or) puppeteer | Alternative — render HTML invoice template to PDF |
+
+## Utilities
+| Package | Purpose |
+|---|---|
+| slugify | Generate URL-safe slugs for products/categories/blogs |
+| morgan | HTTP request logging in dev |
+| compression | Gzip response compression |
+| uuid | Generate unique IDs where needed (invoice numbers, etc.) |
+
+## Dev Dependencies
+| Package | Purpose |
+|---|---|
+| nodemon | Auto-restart server on file changes |
+| eslint | Linting |
+| prettier | Code formatting |
+| jest / supertest | API testing (optional but recommended) |
+
+## Install Commands
+
+```bash
+# Core
+npm install express mongoose dotenv cors cookie-parser
+
+# Auth & Security
+npm install jsonwebtoken bcryptjs helmet express-rate-limit express-mongo-sanitize
+
+# Validation
+npm install zod
+
+# File Upload
+npm install multer cloudinary multer-storage-cloudinary
+
+# Email
+npm install nodemailer
+
+# Payments
+npm install stripe
+
+# PDF
+npm install pdfkit
+
+# Utilities
+npm install slugify morgan compression uuid
+
+# Dev dependencies
+npm install -D nodemon eslint prettier jest supertest
+```
+
+## Suggested `.env` variables
+
+```
+PORT=5000
+NODE_ENV=development
+
+MONGO_URI=
+
+JWT_ACCESS_SECRET=
+JWT_REFRESH_SECRET=
+JWT_ACCESS_EXPIRES=15m
+JWT_REFRESH_EXPIRES=7d
+
+CLOUDINARY_CLOUD_NAME=
+CLOUDINARY_API_KEY=
+CLOUDINARY_API_SECRET=
+
+SMTP_HOST=
+SMTP_PORT=
+SMTP_USER=
+SMTP_PASS=
+
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+CLIENT_URL=http://localhost:5173
+```

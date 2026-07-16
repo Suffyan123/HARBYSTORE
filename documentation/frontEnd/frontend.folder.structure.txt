@@ -1,0 +1,121 @@
+-------------------------------- ARCHITECTURAL APPORACH ---------------------------------
+
+Component  →  Custom Hook  →  Service  →  (static data today / API tomorrow)
+
+-------------------------------- HERBY FRONTEND PROJECT STRUCTRUE ---------------------------------
+
+src/
+│── assets/
+├── components/
+│    ├── common/
+│    │
+│    ├── features/                 MAIN BUSINESS LOGIC
+│    │     ├── cart/
+│    │     │    ├── components/
+│    │     │    │   ├── CartItem.jsx
+│    │     │
+│    │     ├── home/
+│    │     │     ├── sections/
+│    │     │     │     ├── BannerSection.jsx
+│    │     │     │     ├── BestSelling.jsx
+│    │     │     │     ├── CategorySection.jsx
+│    │     │     │     ├── HeroSection.jsx
+│    │     │     │     ├── ProductSection.jsx
+│    │     │     │     ├── BrandSection.jsx
+│    │     │     │     ├── DealsSection.jsx
+│    │     │     │     ├── InfoStripSection.jsx
+│    │     │     │     ├── InspirationSection.jsx
+│    │     │     │     ├── NewsletterSection.jsx
+│    │     │     │     ├── TestimonialSection.jsx
+│    │     │     │
+│    │     ├── product/
+│    │     │     ├── components/
+│    │     │     │     ├── ProductGrid.jsx
+│    │     │     │     ├── ProductCard.jsx
+│    │     │     │     ├── ProductGallery.jsx
+│    │     │     │     ├── ProductImage.jsx
+│    │     │     │     ├── ProductInfo.jsx
+│    │     │     │     ├── RelatedProduct.jsx
+│    │     │     │     ├── ShopProductCard.jsx
+│    │     │     │     ├── ShopSidebar.jsx
+│    │     │     │
+│    │     ├── shop/
+│    │     │     ├── /components
+│    │     │     │     ├── ShopSidebar.jsx
+│    │     │     
+│    │    
+│    ├── layout/               app structure
+│    │    ├── Footer.jsx
+│    │    ├── Layout.jsx
+│    │    ├── navbar.css
+│    │    ├── Navbar.jsx
+│    │    ├── Topbar.jsx
+│    │
+│    ├── ui/                   reusable dumb components
+│    │    ├── Button.jsx
+│    │    ├── Card.jsx  
+│    │    ├── CountDownTimer.jsx  
+│    │    ├── CTA.jsx  
+│
+│── data/
+│    ├── banners.js
+│    ├── brandLogos.js
+│    ├── categories.js
+│    ├── infoStrip.js
+│    ├── inspirationPosts.js
+│    ├── product.js
+│    ├── testimonials.js
+│   
+│── hooks/
+│   ├── useAuth.js
+│   ├── userBanner.js
+│   ├── useCategoryShowcase.js
+│   ├── userCoundown.js
+│   ├── useInspirationPosts.js
+│   ├── useProducts.js
+│   ├── useTestimonials.js
+│ 
+├── pages/
+│   ├── Cart.jsx
+│   ├── Checkout.jsx
+│   ├── Favorite.jsx
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── Product.jsx
+│       
+├── services/
+│   ├── authService.js
+│   ├── bannerService.js
+│   ├── blogService.js
+│   ├── cartService.js
+│   ├── categoryService.js
+│   ├── heroService.js
+│   ├── newsletterService.js
+│   ├── productService.js
+│   ├── testimonialService.js.js
+│
+├── store/
+│   ├── useFavoritesStore.js
+│   ├── useCartStore.js
+│   ├── useFavoritesStore.js.js
+│
+├── App.jsx
+│
+├── index.css
+│
+├── main.jsx
+│
+├── .gitignore
+│
+├── eslint.config.js
+│
+├── index.html
+│
+├── package-lock.json
+│
+├── package.json
+│
+├── README.md
+│
+├── vite.config.js
+

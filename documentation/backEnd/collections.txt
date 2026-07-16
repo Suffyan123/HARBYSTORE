@@ -1,0 +1,71 @@
+# Collections
+
+MongoDB collection names (lowercase, plural, as Mongoose auto-generates by default) and the indexing/embedding decisions that affect performance and query patterns.
+
+## Collection List
+
+| Collection name | Backing Model | Notes |
+|---|---|---|
+| `users` | User | |
+| `products` | Product | |
+| `categories` | Category | |
+| `productcustomizations` | ProductCustomization | |
+| `carts` | Cart | |
+| `wishlists` | Wishlist | |
+| `orders` | Order | OrderItems embedded here (see below) |
+| `reviews` | Review | |
+| `coupons` | Coupon | |
+| `blogs` | Blog | |
+| `invoices` | Invoice | |
+| `contactmessages` | ContactMessage | |
+
+**Total: 12 physical collections** (Address and OrderItem are embedded, not separate collections — see below).
+
+## Embed vs. Reference decisions
+
+**Address → embedded in `users`.**
+Addresses are only ever accessed in the context of their owning user (shipping form, profile page). No independent queries needed. Embed as an array subdocument on User rather than a separate collection.
+
+**OrderItem → embedded in `orders`.**
+Order line items are never queried independently of their order — you always want "all items in order X," never "find all OrderItems across all orders matching some filter" (analytics on top-selling products should query `orders` with `$unwind` on the items array, or maintain a denormalized stats collection instead). Embedding avoids a join and keeps an order's data immutable/atomic at write time.
+
+**Cart items → embedded array within `carts`**, each item referencing `Product` and optionally `ProductCustomization` by ObjectId (not embedding full product data, since price/stock must always reflect current product state, not a stale copy).
+
+**Wishlist → single document per user** with a `products: [ObjectId]` array, rather than one document per favorited product. Keeps reads (checking "is this favorited") and writes (toggle) both O(1) against one document.
+
+## Indexes
+
+| Collection | Index | Reason |
+|---|---|---|
+| `users` | `{ email: 1 }` unique | Login lookup, enforce uniqueness |
+| `products` | `{ slug: 1 }` unique | Product detail page lookup by URL |
+| `products` | `{ category: 1 }` | Filtering by category |
+| `products` | `{ name: "text", description: "text" }` | Search |
+| `categories` | `{ slug: 1 }` unique | Category page lookup |
+| `orders` | `{ user: 1, createdAt: -1 }` | Order history, most recent first |
+| `orders` | `{ status: 1 }` | Admin filtering by order status |
+| `reviews` | `{ product: 1 }` | Fetch all reviews for a product |
+| `reviews` | `{ product: 1, user: 1 }` unique | Prevent duplicate reviews per user per product |
+| `coupons` | `{ code: 1 }` unique | Checkout validation lookup |
+| `blogs` | `{ slug: 1 }` unique | Blog post page lookup |
+| `carts` | `{ user: 1 }` unique | One active cart per user |
+| `wishlists` | `{ user: 1 }` unique | One wishlist doc per user |
+| `contactmessages` | `{ createdAt: -1 }` | Admin inbox, most recent first |
+
+## Relationships Summary (ObjectId references)
+
+```
+users (1) ──< orders (many)
+users (1) ──1 carts
+users (1) ──1 wishlists
+users (1) ──< reviews (many)
+
+products (1) ──< reviews (many)
+products (many) ──1 categories
+products (1) ──< productcustomizations (many)
+
+orders (1) ──1 invoices
+orders (many) ──1 coupons (optional, if applied)
+
+blogs (many) ──1 users (as author)
+```

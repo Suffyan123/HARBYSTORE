@@ -1,0 +1,33 @@
+.hero {
+  background: #ACE7EF33;
+}
+
+.hero-banner {
+  max-width: 500px; /* hard ceiling so it never blows up on huge screens */
+}
+
+/* CIRCLES */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* BIG — sits behind everything */
+.big-circle {
+  width: clamp(180px, 45vw, 368px);
+  height: clamp(180px, 45vw, 368px);
+  right: clamp(10px, 15vw, 224px);
+  bottom: 0;
+  background: #ACE7EF;
+  z-index: 4;
+}
+
+/* SMALL — sits above big circle, below image */
+.small-circle {
+  width: clamp(120px, 32vw, 251px);
+  height: clamp(110px, 30vw, 239px);
+  right: clamp(50px, 22vw, 218px);
+  top: clamp(-10px, -3vw, -27px);
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 3;
+}

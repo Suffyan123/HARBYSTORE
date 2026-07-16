@@ -1,0 +1,259 @@
+@import "tailwindcss";
+
+
+:root {
+
+  /* ================================= BRAND / SEMANTIC ======================== */
+
+  --primary: #34495E;
+  --secondary: #00cec9;
+  --secondary-light: #ACE7EF;
+
+  --info: #0984E3;
+  --info-contrast: #FFFFFF;
+
+
+
+    /* ================================= WHITE COLORS /  ======================== */
+
+
+  --white-pure: #FFFFFF;        /* pure white */
+  --white-snow: #FFFAFA;        /* warm soft white */
+  --white-ghost: #F8F8FF;       /* cool bluish white */
+  --white-soft: #F8F8F8;        /* soft neutral white */
+  --white-smoke: #F5F5F5;       /* slightly gray white */
+
+
+
+
+
+  /* ======================================== BLACK (Dracula Orchid) ================= */
+
+  --black-100: #000000;
+  --black-200: #25292A;
+  --black-300: #2D3436;
+
+  /* ===================================== GRAY (American River) ==================== */
+     
+
+  --gray-100: #636E72;
+  --gray-200: #737D81;
+
+  /* ====================================== BLUE SCALE =================== */
+
+  --blue-50: #f2f9fd;
+  --blue-100: #e3f1fb;
+  --blue-200: #c1e3f6;
+  --blue-300: #8accef;
+  --blue-400: #4bb3e5;
+  --blue-500: #249ad3;
+  --blue-600: #167bb3;
+  --blue-700: #136291;
+  --blue-800: #145378;
+  --blue-900: #154360;
+  --blue-950: #0f2d42;
+
+  /* ==================================== AMBER SCALE ===================== */
+  
+  --amber-50: #fffbeb;
+  --amber-100: #fff5c6;
+  --amber-200: #ffe988;
+  --amber-300: #ffdb57;
+  --amber-400: #ffc520;
+  --amber-500: #f9a407;
+  --amber-600: #dd7b02;
+  --amber-700: #b75706;
+  --amber-800: #94420c;
+  --amber-900: #7a370d;
+  --amber-950: #461b02;
+
+  /* =================================== INFO SCALE (12-step) ====================== */
+
+  --info-1: #fdfdfe;
+  --info-2: #f7f9ff;
+  --info-3: #edf2fe;
+  --info-4: #dfeaff;
+  --info-5: #d0dfff;
+  --info-6: #bdd1ff;
+  --info-7: #a6bff9;
+  --info-8: #87a5ef;
+  --info-9: #3d63dd;
+  --info-10: #3657c3;
+  --info-11: #395bc7;
+  --info-12: #1d2e5c;
+
+  /* ================================ NEUTRAL SCALE ========================= */
+
+  --neutral-1: #fcfcfd;
+  --neutral-2: #f9f9fb;
+  --neutral-3: #eff0f3;
+  --neutral-4: #e7e8ec;
+  --neutral-5: #e0e1e6;
+  --neutral-6: #d8d9e0;
+  --neutral-7: #cdced7;
+  --neutral-8: #b9bbc6;
+  --neutral-9: #8b8d98;
+  --neutral-10: #80828d;
+  --neutral-11: #62636c;
+  --neutral-12: #1e1f24;
+
+  /* ======================== STATES ================================= */
+
+  --success: #10b981;
+  --warning: #f59e0b;
+  --error: #ef4444;
+
+  /* ========================= UI TOKENS (from form-control design) ================================ */
+
+  --bg-tint: #ACE7EF;
+  --btn-dark: #262626;
+
+  --radius-btn: 100px;
+  --font-sans: 'Poppins', sans-serif;
+}
+
+:root {
+  --bg-primary: var(--color-white);
+  --text-primary: var(--color-black-3);
+  --text-secondary: var(--color-gray-1);
+  --border-color: var(--color-gray-2);
+  --primary-dark: var(--color-black-2); /* used by .btn-filled:hover */
+}
+
+/* ================================================================
+   BASE
+   ================================================================ */
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.main-container {
+  padding-inline: 40px;
+}
+
+/* ================================================================
+   TOP BAR
+   ================================================================ */
+
+.top-bar {
+  font-size: 17px;
+  background-color: var(--black-300);
+}
+
+.top-bar > span {
+  color: var(--color-white);
+  font-size: 17px;
+}
+
+/* ================================================================
+   NAV BAR
+   ================================================================ */
+
+.company-logo {
+  height: 40px;
+  width: auto;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+/* ================================================================
+   HERO
+   ================================================================ */
+
+.hero-main-heading {
+  color: var(--black-300);
+}
+
+.hero-sub-heading {
+  font-size: 18px;
+  color: var(--color-black-2);
+}
+
+/* ================================================================
+   INFO STRIP
+   ================================================================ */
+
+.info-strip {
+  font-size: 16px;
+  color: var(--color-black-3);
+}
+
+/* ================================================================
+   BUTTONS
+   ================================================================ */
+
+
+
+
+/* ================================================================
+   LINK / BUTTON VARIANTS
+   ================================================================ */
+
+.link-static {
+  background-color: var(--color-white);
+  color: var(--black-300);
+  border: 1px solid transparent;
+  border-radius: 100px;
+}
+
+.link-outline {
+  background-color: var(--white);
+  color: var(--black-300);
+  border: 1px solid transparent;
+  border-radius: 100px;
+}
+.link-outline:hover {
+  border-color: var(--secondary);
+}
+.link-outline:active {
+  background-color: var(--secondary);
+  color: var(--black-300);
+  border: none;
+}
+
+.link-elevate {
+  background-color: var(--secondary);
+  color: var(--black-300);
+  border-radius: 100px;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+/* Hover State */
+.link-elevate:hover {
+  border-color: #ACE7EF;
+  box-shadow: 0px 2px 5px 0px #0000001A;
+}
+
+/* btn-elevate is visually identical to link-elevate — shared look,
+   different element type. Reuse the same class. */
+.btn-elevate {
+  background-color: var(--color-white);
+  color: var(--black-300);
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+.btn-elevate:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+.btn-elevate:active {
+  background-color: var(--black-300);
+  color: var(--color-white);
+  box-shadow: none;
+}
+
+/********************* Product styling ***************************/
+
+.product-color{
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--black-200);
+}
+.product-color:active{
+  color: var(--secondary);
+}
+
+/************************************************/
