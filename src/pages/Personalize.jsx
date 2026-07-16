@@ -47,13 +47,12 @@ const panels = {
   shapes: <ShapesPanel fabricCanvas={fabricCanvas} selectedObject={selectedObject} product={product} />,
   qrcode: <QRCodePanel fabricCanvas={fabricCanvas} product={product} />,
   layers: <LayersPanel fabricCanvas={fabricCanvas} />,
-  // mydesign: <MyDesignPanel fabricCanvas={fabricCanvas} product={product} />,
 };
   return (
-    <div className="px-6 lg:px-10 py-6">
+    <div className="px-6  lg:px-10 py-6 bg-(--white-ghost) flex flex-col">
       <CanvasToolbar fabricCanvas={fabricCanvas} selectedObject={selectedObject} />
 
-      <div className="flex border rounded-xl overflow-hidden">
+      <div className="flex border rounded-xl overflow-hidden ">
         <ToolSidebar activeTool={activeTool} onSelect={setActiveTool} />
         {panels[activeTool]}
 

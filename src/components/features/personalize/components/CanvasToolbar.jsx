@@ -94,7 +94,7 @@ export default function CanvasToolbar({ fabricCanvas, selectedObject }) {
   const buttons = [
     { icon: HiOutlineInformationCircle, action: () => {}, label: "Info" },
     { icon: LuSquareDashedMousePointer, action: selectAll, label: "Select All" },
-    { icon: LuEraser, action: clearCanvas, label: "Clear" },
+    // { icon: LuEraser, action: clearCanvas, label: "Clear" },
     { icon: LuGrid3X3, action: () => {}, label: "Grid" },
     { icon: LuAlignCenterHorizontal, action: centerH, label: "Center H" },
     { icon: LuAlignCenterVertical, action: centerV, label: "Center V" },
@@ -114,18 +114,20 @@ export default function CanvasToolbar({ fabricCanvas, selectedObject }) {
   ];
 
   return (
-    <div className="flex items-center gap-1 border rounded-xl p-2 mb-4 w-fit">
+    <div className="w-full my-10">
+      <div className="grid grid-cols-6 items-center justify-between sm:grid-cols-7 gap-4  md:grid-cols-8 lg:grid-cols-9 lg:gap-0 xl:grid-cols-18 border border-soild border-[#A7A7A7] px-3 py-3">
       {buttons.map(({ icon: Icon, action, label }, i) => (
         <button
           key={i}
           onClick={action}
           aria-label={label}
           title={label}
-          className="w-9 h-9 flex items-center justify-center rounded-lg hover:bg-gray-100 text-gray-700"
-        >
-          <Icon size={18} />
+          className="w-9 h-9 xl:w-8 xl:h-8 font-20 flex items-center justify-center   bg-(--white-pure) border border-solid border-[#A7A7A7]  text-(--black-100)"
+          >
+          <Icon className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
         </button>
       ))}
+    </div>
     </div>
   );
 }
